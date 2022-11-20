@@ -1,0 +1,24 @@
+# Copyright 2020 IBM Corp.
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: app.fybrik.io/v1beta1
+kind: FybrikModule
+metadata:
+  name: read
+  namespace: fybrik-system
+spec:
+  chart:
+    name: ghcr.io/fybrik/dbt-module-chart:0.0.0
+  type: service
+  capabilities:
+    - capability: read
+      api:
+          connection:
+            name: dbt-module
+            dbt-module:
+              hostname: "{{ .Release.Name }}.{{ .Release.Namespace }}"
+              port: 80
+              scheme: grpc
+      supportedInterfaces: 
+      - source:
+          protocol: s3

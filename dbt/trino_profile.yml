@@ -1,0 +1,22 @@
+fybrik:
+  target: dremio
+  outputs:
+    dremio:
+      type: dremio
+      software_host: localhost
+      port: 9047
+      user: admin
+      password: password1
+      threads: 1
+      use_ssl: false
+    
+    trino:
+      type: trino
+      method: none  # optional, one of {none | ldap | kerberos}
+      user: admin
+      password:  # required if method is ldap or kerberos
+      catalog: iceberg
+      host: localhost
+      port: 8080
+      schema: icebergtrino
+      threads: 1

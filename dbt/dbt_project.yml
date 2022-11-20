@@ -1,0 +1,132 @@
+
+# # Name your project! Project names should contain only lowercase characters
+# # and underscores. A good package name should reflect your organization's
+# # name or the intended use of these models
+# name: 'trino_project'
+# version: '1.0.0'
+# config-version: 2
+
+# # This setting configures which "profile" dbt uses for this project.
+# profile: 'trino'
+
+# # These configurations specify where dbt should look for different types of files.
+# # The `source-paths` config, for example, states that models in this project can be
+# # found in the "models/" directory. You probably won't need to change these!
+# model-paths: ["models"]
+# analysis-paths: ["analysis"]
+# test-paths: ["tests"]
+# seed-paths: ["data"]
+# macro-paths: ["macros"]
+# snapshot-paths: ["snapshots"]
+
+# target-path: "target"  # directory which will store compiled SQL files
+# clean-targets:         # directories to be removed by `dbt clean`
+#     - "target"
+#     - "dbt_modules"
+
+# vars:
+#   bigquery_catalog: bigquery
+#   bigquery_schema: data_prep
+#   tpch_catalog: tpch
+#   tpch_schema: sf1
+#   iceberg_catalog: iceberg
+#   iceberg_schema: icebergtrino
+#   tables_catalog: iceberg
+#   tables_schema: icebergtrino
+
+# # Configuring models
+# # Full documentation: https://docs.getdbt.com/docs/configuring-models
+
+# # In this example config, we tell dbt to build all models in the example/ directory
+# # as tables. These settings can be overridden in the individual model files
+# # using the `{{ config(...) }}` macro.
+# models:
+#   trino_project:
+#       materialized: view
+#       catalog: iceberg
+#       schema: icebergtrino
+
+
+
+
+
+# Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: 'fybrik_project'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'fybrik'
+
+# These configurations specify where dbt should look for different types of files.
+# The `source-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: ["models"]
+analysis-paths: ["analysis"]
+test-paths: ["tests"]
+seed-paths: ["data"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+    - "target"
+    - "dbt_modules"
+
+vars:
+  dremio_catalog: "@admin"
+  dremio_schema: "schema"
+  trino_catalog: iceberg
+  trino_schema: icebergtrino
+
+# Configuring models
+# Full documentation: https://docs.getdbt.com/docs/configuring-models
+
+# In this example config, we tell dbt to build all models in the example/ directory
+# as tables. These settings can be overridden in the individual model files
+# using the `{{ config(...) }}` macro.
+models:
+  fybrik_project:
+      materialized: view
+      schema: schema
+      
+
+# select * from "@admin"."schema".custorder => => bytes => => c2VsZWN0ICogZnJvbSAiQGFkbWluIi4ic2NoZW1hIi5jdXN0b3JkZXI=
+# select * from "iceberg"."icebergtrino".custorder => => bytes => => c2VsZWN0ICogZnJvbSAiaWNlYmVyZyIuImljZWJlcmd0cmlubyIuY3VzdG9yZGVy
+
+# select * from "@admin"."schema".customers => => bytes => => c2VsZWN0ICogZnJvbSAiQGFkbWluIi4ic2NoZW1hIi5jdXN0b21lcnM=
+# select * from "iceberg"."icebergtrino".customers => => bytes => => c2VsZWN0ICogZnJvbSAiaWNlYmVyZyIuImljZWJlcmd0cmlubyIuY3VzdG9tZXJz
+
+# dbt-rpc
+# run as `dbt run`
+# curl -d "{\"jsonrpc\": \"2.0\", \"id\": 2, \"method\": \"run\", \"params\": {\"threads\": 1}}" --header "Content-Type: application/json" http://localhost:8580/jsonrpc
+# run a query
+# curl -d "{\"jsonrpc\": \"2.0\", \"id\": 2, \"method\": \"run_sql\", \"params\": {\"sql\": \"c2VsZWN0ICogZnJvbSBpY2ViZXJnLmljZWJlcmd0cmluby5jdXN0b21lcnMy\", \"timeout\": 600, \"name\": \"test_query\"}}" --header "Content-Type: application/json" http://localhost:8580/jsonrpc
+# to get the result run poll request
+# curl -d "{\"jsonrpc\": \"2.0\", \"id\": \"a\", \"method\": \"poll\", \"params\": {\"request_token\": \"5ca15adf-c726-4e7b-8896-9f0afd0302c1\", \"logs\": true, \"logs_start\": 0}}" --header "Content-Type: application/json" http://localhost:8580/jsonrpc
+
+# to query dremio use : select * from "@admin".customers3
+
+# curl -d "{\"jsonrpc\": \"2.0\", \"id\": \"a\", \"method\": \"poll\", \"params\": {\"request_token\": \"ee583e84-a754-423f-85fc-9ed1c035fe3e\", \"logs\": true,
+#  \"logs_start\": 0}}" --header "Content-Type: application/json" http://localhost:8580/jsonrpc
+# {"result": {"state": "success", "start": "2022-11-14T09:06:23.450198Z", "end": "2022-11-14T09:06:26.389127Z", 
+# "elapsed": 2.938929, "logs": [], "tags": null, "results": [{"logs": [], "raw_sql": "select * from iceberg.icebergtrino.customer1", 
+# "compiled_sql": "select * from iceberg.icebergtrino.customer1", "node": {"compiled": true, "resource_type": "rpc", "depends_on":
+#  {"macros": [], "nodes": []}, "config": {"enabled": true, "alias": null, "schema": "icebergtrino", "database": "iceberg", "tags": [], 
+#  "meta": {}, "materialized": "view", "incremental_strategy": null, "persist_docs": {}, "quoting": {}, "column_types": {}, "full_refresh": null, 
+#  "unique_key": null, "on_schema_change": "ignore", "grants": {}, "packages": [], "docs": {"show": true, "node_color": null}, "post-hook": [], "pre-hook": []}, 
+#  "database": "iceberg", "schema": "icebergtrino", "fqn": ["trino_project", "rpc", "test_query"], "unique_id": "rpc.trino_project.test_query", "language": "sql", 
+#  "package_name": "trino_project", "root_path": "/home/mohammadtn/trino-dbt-demo", "path": "rpc/test_query", "original_file_path": "from remote system.sql", "name": 
+#  "test_query", "alias": "test_query", "checksum": {"name": "sha256", "checksum": "c458a3dd6f728155f55222b838ac649946d84f8ca61949d1891ed8874dcb696e"}, "tags": [], 
+#  "refs": [], "sources": [], "metrics": [], "description": "", "columns": {}, "meta": {}, "docs": {"show": true, "node_color": null}, "patch_path": null, 
+#  "compiled_path": null, "build_path": null, "deferred": false, "unrendered_config": {"materialized": "view", "database": "iceberg", "schema": "icebergtrino"}, 
+#  "created_at": 1668416785.8724039, "config_call_dict": {}, "extra_ctes_injected": true, "extra_ctes": [], "relation_name": null, 
+#  "raw_sql": "select * from iceberg.icebergtrino.customer1", "compiled_sql": "select * from iceberg.icebergtrino.customer1"}, 
+#  "timing": [{"name": "compile", "started_at": "2022-11-14T09:06:25.891673Z", "completed_at": "2022-11-14T09:06:25.894373Z"}, 
+#  {"name": "execute", "started_at": "2022-11-14T09:06:25.894857Z", "completed_at": "2022-11-14T09:06:26.146716Z"}], 
+#  "table": {"column_names": ["custkey", "name", "phone"], "rows": [[2.0, "cust2", "01234"], [3.0, "cust3", "01234"], [1.0, "cust1", "01234"]]}, 
+#  "generated_at": "2022-11-14T09:06:26.147347Z"}], "elapsed_time": 0.300383, "args": {}, "generated_at": "2022-11-14T09:06:26.147542Z"}, "id": "a", "jsonrpc": "2.0"}
+
+

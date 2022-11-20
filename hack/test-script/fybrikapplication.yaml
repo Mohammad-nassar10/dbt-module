@@ -1,0 +1,16 @@
+apiVersion: app.fybrik.io/v1beta1
+kind: FybrikApplication
+metadata:
+  name: dbt-app
+  namespace: fybrik-notebook-sample
+spec:
+  selector:
+   workloadSelector:
+     matchLabels: {}
+  appInfo:
+    intent: Fraud Detection
+    role: Security
+  data:
+    - dataSetID: 'fybrik-notebook-sample/paysim-csv'
+      flow: read
+      requirements: {}
