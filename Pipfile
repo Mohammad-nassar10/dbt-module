@@ -14,8 +14,14 @@ boto3 = "*"
 fybrik_python_vault = {version="0.1.0", index="testpypi"}
 pyyaml = "*"
 fybrik-python-logging = "*"
+dbt-core = "*"
+dbt-trino = "*"
+dbt-dremio = "*"
+json-rpc = "*"
+
 
 [dev-packages]
 
 [requires]
 python_version = "3.8"
+git = "2.17.1"

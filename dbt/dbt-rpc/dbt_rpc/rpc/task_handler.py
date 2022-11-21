@@ -132,7 +132,7 @@ class BootstrapProcess(dbt.flags.MP_CONTEXT.Process):
                 handler.emit_error(error.error)
 
     def run(self):
-        print("run in BootstrapProcess, task_handler.py\n")
+        # print("run in BootstrapProcess, task_handler.py\n")
         self.task_exec()
 
 
@@ -488,14 +488,16 @@ class RequestTaskHandler(threading.Thread, TaskHandlerProtocol):
             flags: RemoteMethodFlags = self.task.get_flags()
             self.task_params = self._collect_parameters()
             self.task.set_args(self.task_params)
-            # print(dbt.flags.PROFILES_DIR)
-            # with open(dbt.flags.PROFILES_DIR + '/profiles.yml', 'r') as stream:
-            #     content = yaml.safe_load(stream)
-            #     print(content)
-            #     user = content[self.task.config.profile_name]["outputs"][self.task.config.target_name]["user"]
-            #     print(user)
+            print(dbt.flags.PROFILES_DIR)
+            with open(dbt.flags.PROFILES_DIR + '/profiles.yml', 'r') as stream:
+                content = yaml.safe_load(stream)
+                # print(content)
+                user = content[self.task.config.profile_name]["outputs"][self.task.config.target_name]["user"]
+                print(user)
             print("handle")
-            print(self.task.config.user_name)
+            print(type(self.task))
+            self.task.user_name = user
+            print(self.task.user_name)
             if RemoteMethodFlags.RequiresConfigReloadBefore in flags:
                 # tell the manager to reload the config.
                 self.manager.reload_config()

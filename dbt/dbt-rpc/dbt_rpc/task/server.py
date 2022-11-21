@@ -25,6 +25,8 @@ from rpc.response_manager import ResponseManager
 from rpc.task_manager import TaskManager
 from dbt.task.base import ConfiguredTask
 from dbt.utils import ForgivingJSONEncoder
+from .base import RPCTask
+from.sql_commands import RemoteRunSQLTask
 
 # SIG_DFL ends up killing the process if multiple build up, but SIG_IGN just
 # peacefully carries on
@@ -87,7 +89,7 @@ class RPCServerTask(ConfiguredTask):
             self.args, self.config, TaskTypes(tasks)
         )
         signal.signal(signal.SIGHUP, self._sighup_handler)
-        # self.user = ""
+        # self.user_name1 = ""
 
     @classmethod
     def pre_init_hook(cls, args):
@@ -105,11 +107,11 @@ class RPCServerTask(ConfiguredTask):
             self.task_manager.reload_config()
             self.task_manager.reload_manifest()
 
-    def run_forever(self, user=""):
-        print("run_forever() in task/server.py\n")
-        print(self.args)
+    def run_forever(self):
+        # print("run_forever() in task/server.py\n")
+        # print(self.args)
         # self.user = user
-        print(user)
+        # print(user)
         host = self.args.host
         port = self.args.port
         addr = (host, port)
@@ -154,10 +156,10 @@ class RPCServerTask(ConfiguredTask):
         with ServerContext().applicationbound():
             self.run_forever()
 
-    def run_with_user(self, user):
-        # print("run() in task/server.py")
-        with ServerContext().applicationbound():
-            self.run_forever(user)
+    # def run_with_user(self, user):
+    #     # print("run() in task/server.py")
+    #     with ServerContext().applicationbound():
+    #         self.run_forever(user)
 
     @Request.application
     def handle_jsonrpc_request(self, request):

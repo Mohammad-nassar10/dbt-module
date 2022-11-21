@@ -23,7 +23,7 @@ from dbt.exceptions import (
 import dbt.flags as flags
 
 from task.server import RPCServerTask
-import yaml
+
 
 def initialize_tracking_from_flags():
     # NOTE: this is copied from dbt-core
@@ -226,6 +226,7 @@ def track_run(task):
         dbt.tracking.flush()
 
 
+
 def run_from_args(parsed):
     log_cache_events(getattr(parsed, 'log_cache_events', False))
 
@@ -238,7 +239,7 @@ def run_from_args(parsed):
     # this will convert DbtConfigErrors into RuntimeExceptions
     # task could be any one of the task objects
     task = parsed.cls.from_args(args=parsed)
-
+    print(type(task))
     logger.debug("running dbt with arguments {parsed}", parsed=str(parsed))
 
     log_path = None
@@ -252,18 +253,22 @@ def run_from_args(parsed):
     results = None
 
     with track_run(task):
-        print("run_from_args, track_run")
-        print(type(task.config))
-        print(task.config.user_name)
-        with open(flags.PROFILES_DIR + '/profiles.yml', 'r') as stream:
-            content = yaml.safe_load(stream)
-            print(content)
-            user = content[task.config.profile_name]["outputs"][task.config.target_name]["user"]
-            print(user)
-        task.config.user_name = user
-        print(task.config.user_name)
-        return RPCServerTask.run_with_user(task, user)
-        # results = task.run()
+        # print("run_from_args, track_run")
+        # print(type(task.config))
+        # print("username1")
+        # print(task.user_name1)
+        # print("username2")
+        # with open(flags.PROFILES_DIR + '/profiles.yml', 'r') as stream:
+        #     content = yaml.safe_load(stream)
+        #     print(content)
+        #     user = content[task.config.profile_name]["outputs"][task.config.target_name]["user"]
+        #     print(user)
+        # task.user_name1 = user
+        # RPCTask.user_name2.append(1)
+        # print(RemoteRunSQLTask.user_name2)
+        # results = RPCServerTask.run_with_user(task, user)
+        results = task.run()
+    
 
     return task, results
 

@@ -1,9 +1,10 @@
 fybrik:
-  target: dremio
+  target: trino
   outputs:
     dremio:
       type: dremio
-      software_host: localhost
+      software_host: host.docker.internal
+      # software_host: localhost
       port: 9047
       user: admin
       password: password1
@@ -16,7 +17,8 @@ fybrik:
       user: admin
       password:  # required if method is ldap or kerberos
       catalog: iceberg
-      host: localhost
+      host: host.docker.internal
+      # host: localhost
       port: 8080
       schema: icebergtrino
       threads: 1

@@ -21,7 +21,7 @@ class RemoteMethod(Generic[Parameters, Result]):
     def __init__(self, args, config):
         self.args = args
         self.config = config
-        # self.user = ""
+        # self.user_name = ""
 
     @classmethod
     def get_parameters(cls) -> Type[Parameters]:

@@ -115,14 +115,13 @@ class RemoteRunSQLTask(RPCTask[RPCExecParameters]):
         print("_get_exec_node")
         # print(self.user)
         # print(type(self.config))
-        user_name = self.config.user_name 
-        print(self.config.user_name)
-        print(user_name)
+        user = self.user_name
+        print(user)
         # modify the sql query
         print(sql)
-        if(user_name == "admin" and self.config.target_name == "trino"):    
+        if(user == "admin" and self.config.target_name == "trino"):    
             sql = sql.replace('"iceberg"."icebergtrino".customers', '"iceberg"."icebergtrino".custview')
-        elif(user_name == "admin" and self.config.target_name == "trino"):
+        elif(user == "admin" and self.config.target_name == "trino"):
             sql = sql.replace('"@admin"."schema".customers', '"@admin"."schema".custview')
 
         print(sql)

@@ -1,10 +1,10 @@
 include Makefile.env
 
 export DOCKER_TAG ?= 0.0.0
-export DOCKER_USERNAME ?= fybrik
+export DOCKER_USERNAME ?= mohammad-nassar10
 export DOCKER_PASSWORD ?= 
 export DOCKER_HOSTNAME ?= ghcr.io
-export DOCKER_NAMESPACE ?= fybrik
+export DOCKER_NAMESPACE ?= mohammad-nassar10
 export DOCKER_NAME ?= dbt-module
 
 IMG := ${DOCKER_HOSTNAME}/${DOCKER_NAMESPACE}/${DOCKER_NAME}:${DOCKER_TAG}
