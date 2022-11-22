@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: ghcr.io/fybrik/dbt-module
+  repository: ghcr.io/mohammad-nassar10/dbt-module
   tag: 0.0.0
   pullPolicy: Always
   pullSecret: null

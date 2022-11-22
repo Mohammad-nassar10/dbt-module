@@ -31,6 +31,35 @@ data:
         {{- end }}
         {{- end }}
     {{- end }}
+
+    {{- if index . "connection" "trino" }}
+    connection:
+      type: trino
+      trino:
+        host: {{ .connection.trino.host }}
+        port: {{ .connection.trino.port }}
+        catalog: {{ .connection.trino.catalog }}
+        schema: {{ .connection.trino.schema }}
+        {{- range $k, $v := .vault }}
+        {{- if (eq $k "read")}}
+        vault_credentials:
+          {{- if $v.address }}
+          address: {{ $v.address }}
+          {{- end }}
+          {{- if $v.authPath }}
+          authPath: {{ $v.authPath }}
+          {{- end }}
+          {{- if $v.role }}
+          role: {{ $v.role }}
+          {{- end }}
+          {{- if $v.secretPath }}
+          secretPath: {{ $v.secretPath }}
+          {{- end }}
+        {{- end }}
+        {{- end }}
+    {{- end }}
+
+
     {{- end }}
     {{- end }}
     {{- if $asset.transformations }}

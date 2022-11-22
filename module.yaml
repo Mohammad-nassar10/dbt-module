@@ -8,17 +8,21 @@ metadata:
   namespace: fybrik-system
 spec:
   chart:
-    name: ghcr.io/fybrik/dbt-module-chart:0.0.0
+    name: ghcr.io/mohammad-nassar10/dbt-module-chart:0.0.0
   type: service
   capabilities:
     - capability: read
       api:
           connection:
-            name: dbt-module
-            dbt-module:
+            name: dbt
+            dbt:
               hostname: "{{ .Release.Name }}.{{ .Release.Namespace }}"
-              port: 80
+              port: 8580
               scheme: grpc
       supportedInterfaces: 
       - source:
-          protocol: s3
+          protocol: trino
+          dataformat: csv
+      actions:
+        - name: RedactAction
+        - name: RemoveAction

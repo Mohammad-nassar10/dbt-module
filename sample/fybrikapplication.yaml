@@ -1,0 +1,17 @@
+apiVersion: app.fybrik.io/v1beta1
+kind: FybrikApplication
+metadata:
+  name: dbt-sample-app 
+spec:
+  selector:
+   workloadSelector:
+     matchLabels: {
+       app: notebook
+     }
+  appInfo:
+    intent: "Fraud Detection"
+  data:
+    - dataSetID: "fybrik-sample/dataset1"
+      requirements:
+        interface:
+          protocol: dbt

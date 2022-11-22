@@ -6,7 +6,10 @@ import os
 if __name__ == "__main__":
     print("dbt module")
     # Get the dataset details from configuration
-    conf, adapter_host, adapter_port = utils.get_details_from_conf("../sample-conf.yaml")
+    # conf, adapter_host, adapter_port = utils.get_details_from_conf("../sample-conf.yaml")
+    conf = utils.get_details_from_conf()
+    print("conf")
+    print(conf)
     transformation = conf['transformation']
     # transformation_cols = conf['transformation_cols']
     asset_creds = conf['asset_creds']

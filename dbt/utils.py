@@ -39,19 +39,21 @@ def get_details_from_conf(conf_path = "/etc/conf/conf.yaml"):
     """ Parse the configuration and get the data details and policies """
     with open(conf_path, 'r') as stream:
         content = yaml.safe_load(stream)
-        if "adapterHost" in content.keys():
-            adapter_host = content["adapterHost"]
-        if "adapterPort" in content.keys():
-            adapter_port = content["adapterPort"]
+        # if "adapterHost" in content.keys():
+        #     adapter_host = content["adapterHost"]
+        # if "adapterPort" in content.keys():
+        #     adapter_port = content["adapterPort"]
         # if "dremioCredNS" in content.keys():
         #     dremio_cred_ns = content["dremioCredNS"]
         for key, val in content.items():
             if "data" in key:
                 for data in val:
+                    print(data)
                     dataset_id = data["name"]
                     name = dataset_id.split("/")[1]
-                    endpoint_url = data["connection"]["s3"]["endpoint_url"]
-                    vault_credentials = data["connection"]["s3"]["vault_credentials"]
+                    # endpoint_url = data["connection"]["s3"]["endpoint_url"]
+                    # vault_credentials = data["connection"]["s3"]["vault_credentials"]
+                    connection = data["connection"]
                     # asset_creds = get_credentials_from_vault(vault_credentials, vault_credentials.get('secretPath', '/v1/secret/data/cred'), dataset_id)
                     asset_creds = ("admin", "password1")
                     # secret_path = "/v1/kubernetes-secrets/dremio-cluster?namespace=" + dremio_cred_ns
@@ -59,9 +61,11 @@ def get_details_from_conf(conf_path = "/etc/conf/conf.yaml"):
                     transformations_json = json.loads(transformations.decode('utf-8'))
                     transformation = transformations_json[0]['name']
                     transformation_cols = transformations_json[0][transformation]["columns"]
-                    data_dict[name] = {'format': data["format"], 'endpoint_url': endpoint_url, 'path': data["path"], 'transformation': transformation,
+                    # data_dict[name] = {'format': data["format"], 'endpoint_url': endpoint_url, 'path': data["path"], 'transformation': transformation,
+                    #  'transformation_cols': transformation_cols, 'asset_creds': asset_creds}
+                    data_dict[name] = {'format': data["format"], 'connection': connection, 'transformation': transformation,
                      'transformation_cols': transformation_cols, 'asset_creds': asset_creds}
-    return data_dict[name], adapter_host, adapter_port
+    return data_dict[name]
 
 
 def api_get(server, endpoint=None, headers=None, body=None):
