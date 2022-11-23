@@ -1,2 +1,0 @@
-2022-11-20 15:27:59.126676 (MainThread): unclosed <socket.socket fd=5, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('0.0.0.0', 0)>
-2022-11-20 15:28:01.625199 (MainThread): unclosed <socket.socket fd=3, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('0.0.0.0', 8580)>

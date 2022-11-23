@@ -11,3 +11,7 @@ install-sample.sh
 hack/tools/bin/
 
 dbt/target
+dbt/logs
+
+target
+target1
