@@ -97,7 +97,6 @@ class RemoteRunProjectTask(RPCCommandTask[RPCRunParameters], RunTask):
     METHOD_NAME = 'run'
 
     def set_args(self, params: RPCRunParameters) -> None:
-        # print("set_args() calss RemoteRunProjectTask")
         if params.models:
             self.args.select = self._listify(params.models)
         else:

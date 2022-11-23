@@ -74,8 +74,6 @@ class BootstrapProcess(dbt.flags.MP_CONTEXT.Process):
         user_config = None
         if self.task.config is not None:
             user_config = self.task.config.user_config
-        # print("_spawn_setup")
-        # print(user_config)
         dbt.flags.set_from_args(self.task.args, user_config)
         dbt.tracking.initialize_from_flags()
         # reload the active plugin
@@ -85,10 +83,6 @@ class BootstrapProcess(dbt.flags.MP_CONTEXT.Process):
 
     def task_exec(self) -> None:
         """task_exec runs first inside the child process"""
-        print("task_exec")
-        # print(type(self.task.user))
-        
-        # print(dbt.config.profile)
         if type(self.task) != RemoteListTask:
             # TODO: find another solution for this.. in theory it stops us from
             # being able to kill RemoteListTask processes
@@ -132,7 +126,6 @@ class BootstrapProcess(dbt.flags.MP_CONTEXT.Process):
                 handler.emit_error(error.error)
 
     def run(self):
-        # print("run in BootstrapProcess, task_handler.py\n")
         self.task_exec()
 
 
@@ -415,7 +408,6 @@ class RequestTaskHandler(threading.Thread, TaskHandlerProtocol):
             return result
 
     def run(self):
-        print("run() in rpc/task_handler.py class RequestTaskHandler\n")
         try:
             with StateHandler(self):
                 self.result = self.get_result()
@@ -477,7 +469,6 @@ class RequestTaskHandler(threading.Thread, TaskHandlerProtocol):
             raise TypeError(exc) from exc
 
     def handle(self, kwargs: Dict[str, Any]) -> Dict[str, Any]:
-        print("handle() in rpc/task_handler.py class RequestTaskHandler\n")
         self.started = datetime.utcnow()
         self.state = TaskHandlerState.Initializing
         self.task_kwargs = kwargs
@@ -488,16 +479,11 @@ class RequestTaskHandler(threading.Thread, TaskHandlerProtocol):
             flags: RemoteMethodFlags = self.task.get_flags()
             self.task_params = self._collect_parameters()
             self.task.set_args(self.task_params)
-            print(dbt.flags.PROFILES_DIR)
             with open(dbt.flags.PROFILES_DIR + '/profiles.yml', 'r') as stream:
                 content = yaml.safe_load(stream)
-                # print(content)
                 user = content[self.task.config.profile_name]["outputs"][self.task.config.target_name]["user"]
-                print(user)
-            print("handle")
-            print(type(self.task))
+            logger.info('task user {}'.format(user))
             self.task.user_name = user
-            print(self.task.user_name)
             if RemoteMethodFlags.RequiresConfigReloadBefore in flags:
                 # tell the manager to reload the config.
                 self.manager.reload_config()

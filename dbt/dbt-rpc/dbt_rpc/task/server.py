@@ -79,7 +79,6 @@ class RPCServerTask(ConfiguredTask):
     def __init__(
         self, args, config, tasks: Optional[List[Type[RemoteMethod]]] = None
     ) -> None:
-        print("RPCServerTask\n")
         if os.name == 'nt':
             raise RuntimeException(
                 'The dbt RPC server is not supported on windows'
@@ -108,10 +107,6 @@ class RPCServerTask(ConfiguredTask):
             self.task_manager.reload_manifest()
 
     def run_forever(self):
-        # print("run_forever() in task/server.py\n")
-        # print(self.args)
-        # self.user = user
-        # print(user)
         host = self.args.host
         port = self.args.port
         addr = (host, port)
@@ -152,19 +147,11 @@ class RPCServerTask(ConfiguredTask):
         )
 
     def run(self):
-        # print("run() in task/server.py")
         with ServerContext().applicationbound():
             self.run_forever()
 
-    # def run_with_user(self, user):
-    #     # print("run() in task/server.py")
-    #     with ServerContext().applicationbound():
-    #         self.run_forever(user)
-
     @Request.application
     def handle_jsonrpc_request(self, request):
-        print("handle_jsonrpc_request")
-        # print(self.user)
         with HTTPRequest(request):
             jsonrpc_response = ResponseManager.handle(
                 request, self.task_manager

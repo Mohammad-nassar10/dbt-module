@@ -104,7 +104,6 @@ class RemoteBuiltinMethod(RemoteMethod[Parameters, Result]):
         self.params = params
 
     def run(self):
-        print("run() in rpc/method.py\n")
         raise InternalException(
             'the run() method on builtins should never be called'
         )

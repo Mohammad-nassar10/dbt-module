@@ -43,14 +43,11 @@ class RequestDispatcher(Dict[str, Callable[..., Dict[str, Any]]]):
         self.manager = manager
 
     def __getitem__(self, key) -> Callable[..., Dict[str, Any]]:
-        print("__getitem__ in class RequestDispatcher")
         handler = self.manager.get_handler(
             key,
             self.http_request,
             self.json_rpc_request,
         )
-        print(key)
-        print(handler)
         if handler is None:
             raise KeyError(key)
         if callable(handler):

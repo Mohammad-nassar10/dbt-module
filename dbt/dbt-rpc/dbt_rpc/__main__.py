@@ -117,7 +117,6 @@ class RPCArgumentParser(DBTArgumentParser):
 
 
 def main(args=None):
-    # print("main")
     if args is None:
         args = sys.argv[1:]
     with log_manager.applicationbound():
@@ -168,13 +167,11 @@ def adapter_management():
 
 
 def handle_and_check(args):
-    print("handle_and_check")
     with log_manager.applicationbound():
         parsed = parse_args(args)
 
         # Set flags from args, user config, and env vars
         user_config = read_user_config(flags.PROFILES_DIR)  # This is read again later
-        print(flags.PROFILES_DIR)
         flags.set_from_args(parsed, user_config)
         initialize_tracking_from_flags()
         # Set log_format from flags
@@ -197,7 +194,6 @@ def handle_and_check(args):
             with adapter_management():
 
                 task, res = run_from_args(parsed)
-                # print("after run_from_args()")
                 success = task.interpret_results(res)
 
             return res, success
@@ -239,7 +235,6 @@ def run_from_args(parsed):
     # this will convert DbtConfigErrors into RuntimeExceptions
     # task could be any one of the task objects
     task = parsed.cls.from_args(args=parsed)
-    print(type(task))
     logger.debug("running dbt with arguments {parsed}", parsed=str(parsed))
 
     log_path = None
@@ -253,20 +248,6 @@ def run_from_args(parsed):
     results = None
 
     with track_run(task):
-        # print("run_from_args, track_run")
-        # print(type(task.config))
-        # print("username1")
-        # print(task.user_name1)
-        # print("username2")
-        # with open(flags.PROFILES_DIR + '/profiles.yml', 'r') as stream:
-        #     content = yaml.safe_load(stream)
-        #     print(content)
-        #     user = content[task.config.profile_name]["outputs"][task.config.target_name]["user"]
-        #     print(user)
-        # task.user_name1 = user
-        # RPCTask.user_name2.append(1)
-        # print(RemoteRunSQLTask.user_name2)
-        # results = RPCServerTask.run_with_user(task, user)
         results = task.run()
     
 

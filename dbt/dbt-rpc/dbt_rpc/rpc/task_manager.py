@@ -75,7 +75,6 @@ class ManifestReloader(threading.Thread):
                 self.task_manager.parse_manifest()
 
     def run(self) -> None:
-        # print("run() in rpc/task_manager\n")
         try:
             self.reload_manifest()
         except Exception:

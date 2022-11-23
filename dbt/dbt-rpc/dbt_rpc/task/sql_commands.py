@@ -90,8 +90,6 @@ class RemoteRunSQLTask(RPCTask[RPCExecParameters]):
 
     def _extract_request_data(self, data):
         data = self.decode_sql(data)
-        # print("_extract_request_data")
-        # print(data)
         macro_blocks = []
         data_chunks = []
         for block in extract_toplevel_blocks(data):
@@ -112,19 +110,16 @@ class RemoteRunSQLTask(RPCTask[RPCExecParameters]):
         macro_overrides = {}
         macros = self.args.macros
         sql, macros = self._extract_request_data(self.args.sql)
-        print("_get_exec_node")
-        # print(self.user)
-        # print(type(self.config))
         user = self.user_name
-        print(user)
+        logger.info('user {}'.format(user))
         # modify the sql query
-        print(sql)
+        logger.info('requested sql query {}'.format(sql))
         if(user == "admin" and self.config.target_name == "trino"):    
             sql = sql.replace('"iceberg"."icebergtrino".customers', '"iceberg"."icebergtrino".custview')
         elif(user == "admin" and self.config.target_name == "trino"):
             sql = sql.replace('"@admin"."schema".customers', '"@admin"."schema".custview')
 
-        print(sql)
+        logger.info('sql query to exwcute {}'.format(sql))
 
         if macros:
             macro_parser = RPCMacroParser(self.config, self.manifest)
@@ -178,8 +173,6 @@ class RemoteRunSQLTask(RPCTask[RPCExecParameters]):
         # we could get a ctrl+c at any time, including during parsing.
         thread = None
         started = datetime.utcnow()
-        # print("handle_request1")
-        # print(type(self))
         try:
             node = self._get_exec_node()
 
