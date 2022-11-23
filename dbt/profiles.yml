@@ -1,22 +1,11 @@
 fybrik:
-  target: trino
+  target: dremio
   outputs:
     dremio:
       type: dremio
+      user: admin
+      user_ssl: 'false'
+      password: null
       software_host: host.docker.internal
-      port: 9047
-      user: admin
-      password: password1
-      threads: 1
-      use_ssl: false
-    
-    trino:
-      type: trino
-      method: none  # optional, one of {none | ldap | kerberos}
-      user: admin
-      password:  # required if method is ldap or kerberos
-      catalog: iceberg
-      host: host.docker.internal
       port: 8080
-      schema: icebergtrino
       threads: 1

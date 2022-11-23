@@ -10,5 +10,6 @@ COPY dbt dbt
 
 WORKDIR "/app/dbt"
 
+
 ENTRYPOINT ["python3"]
 CMD ["module.py"]

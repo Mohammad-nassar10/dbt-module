@@ -20,9 +20,6 @@ spec:
     tags:
       finance: true
     columns:
-      - name: a
-        tags:
-          PII: true
-      - name: d
+      - name: custkey
         tags:
           PII: true
