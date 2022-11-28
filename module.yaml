@@ -22,7 +22,11 @@ spec:
       supportedInterfaces: 
       - source:
           protocol: trino
-          dataformat: csv
+          dataformat: iceberg
+      - source:
+          protocol: dremio
+          dataformat: iceberg
+
       actions:
         - name: RedactAction
         - name: RemoveAction

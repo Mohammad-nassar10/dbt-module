@@ -115,9 +115,9 @@ class RemoteRunSQLTask(RPCTask[RPCExecParameters]):
         # modify the sql query
         logger.info('requested sql query {}'.format(sql))
         if(user == "admin" and self.config.target_name == "trino"):    
-            sql = sql.replace('"iceberg"."icebergtrino".customers', '"iceberg"."icebergtrino".custview')
-        elif(user == "admin" and self.config.target_name == "trino"):
-            sql = sql.replace('"@admin"."schema".customers', '"@admin"."schema".custview')
+            sql = sql.replace('"iceberg"."icebergtrino".customers', '"iceberg"."icebergtrino".view')
+        elif(user == "admin" and self.config.target_name == "dremio"):
+            sql = sql.replace('"@admin"."schema".customers', '"@admin"."schema".view')
 
         logger.info('sql query to exwcute {}'.format(sql))
 

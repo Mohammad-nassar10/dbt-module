@@ -1,4 +1,4 @@
-apiVersion: batch/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "dbt-module.fullname" . }}
@@ -8,6 +8,11 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "dbt-module.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
@@ -19,7 +24,6 @@ spec:
       annotations:
         sidecar.istio.io/inject: "true"
     spec:
-      restartPolicy: OnFailure
       serviceAccountName: {{ include "dbt-module.fullname" . }}
       containers:
         - name: {{ .Chart.Name }}

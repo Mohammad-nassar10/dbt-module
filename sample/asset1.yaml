@@ -6,7 +6,7 @@ spec:
   secretRef: 
     name: dataset1
   details:
-    dataFormat: csv
+    dataFormat: iceberg
     connection:
       name: trino
       trino:
